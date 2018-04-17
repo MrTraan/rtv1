@@ -1,0 +1,144 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   v3.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ngrasset <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/12/10 13:24:39 by ngrasset          #+#    #+#             */
+/*   Updated: 2018/04/17 19:09:42 by ngrasset         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <rtv1.h>
+#include <math.h>
+#include <stdio.h>
+void		v3_print(t_v3 v, char *msg)
+{
+	if (msg)
+		printf("%s", msg);
+	printf("(x: %f. y: %f, z: %f)\n", v.x, v.y, v.z);
+}
+
+t_v3		v3_add(t_v3 a, t_v3 b)
+{
+	t_v3	res;
+
+	res = (t_v3){
+		.x = a.x + b.x,
+		.y = a.y + b.y,
+		.z = a.z + b.z
+	};
+	return (res);
+}
+
+t_v3		v3_sub(t_v3 a, t_v3 b)
+{
+	t_v3	res;
+
+	res = (t_v3){
+		.x = a.x - b.x,
+		.y = a.y - b.y,
+		.z = a.z - b.z
+	};
+	return (res);
+}
+
+t_v3		v3_add_float(t_v3 a, float f)
+{
+	t_v3	res;
+
+	res = (t_v3){
+		.x = a.x + f,
+		.y = a.y + f,
+		.z = a.z + f
+	};
+	return (res);
+}
+
+t_v3		v3_mul_float(t_v3 a, float f)
+{
+	t_v3	res;
+
+	res = (t_v3){
+		.x = a.x * f,
+		.y = a.y * f,
+		.z = a.z * f
+	};
+	return (res);
+}
+
+t_v3		v3_mul(t_v3 a, t_v3 b)
+{
+	t_v3	res;
+
+	res = (t_v3){
+		.x = a.x * b.x,
+		.y = a.y * b.y,
+		.z = a.z * b.z
+	};
+	return (res);
+}
+
+t_v3		v3_divide(t_v3 a, t_v3 b)
+{
+	t_v3	res;
+
+	res = (t_v3){
+		.x = a.x / b.x,
+		.y = a.y / b.y,
+		.z = a.z / b.z
+	};
+	return (res);
+}
+#define MIN(a, b) (a < b ? a : b)
+int			v3_to_color(t_v3 v)
+{
+	return ((int)MIN(v.z, 255.0f) + ((int)MIN(v.y, 255.0f) << 8) + ((int)MIN(v.x, 255.0f) << 16));
+}
+
+float		v3_length(t_v3 v)
+{
+	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
+}
+
+float		v3_squared_length(t_v3 v)
+{
+	return (v.x * v.x + v.y * v.y + v.z * v.z);
+}
+
+t_v3		v3_cross(t_v3 a, t_v3 b)
+{
+	t_v3	res;
+
+	res = (t_v3){
+		.x = a.y * b.z - a.z * b.y,
+		.y = -(a.x * b.z - a.z * b.x),
+		.z = a.x * b.y - a.y * b.x
+	};
+	return (res);
+}
+
+t_v3		v3_unit(t_v3 src)
+{
+	t_v3		res;
+	float		length;
+
+	length = v3_length(src);
+	res = (t_v3){
+		.x = src.x / length,
+		.y = src.y / length,
+		.z = src.z / length
+	};
+	return (res);
+}
+
+t_v3		v3_reverse(t_v3 src)
+{
+	return ((t_v3){-(src.x), -(src.y), -(src.z)});
+}
+
+float		v3_dot(t_v3 a, t_v3 b)
+{
+	return (a.x * b.x + a.y * b.y + a.z * b.z);
+}
