@@ -6,7 +6,7 @@
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 16:27:49 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/04/17 19:16:37 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/04/18 04:04:25 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,55 @@ void			*main_draw_loop(void *v_app)
 
 	t_sphere s = {
 		.type = SPHERE,
-		.center = (t_v3){.0f, .0f, .0f},
-		.radius = 0.3f,
+		.center = (t_v3){-2.5f, -2.5f, .0f},
+		.radius = .3f,
 		.material = (t_material){
 			.type = LAMBERTIAN,
 			.color = (t_v3){255.0f, .0f, .0f},
-			.ambiant = .1f,
-			.diffuse = .9f,
+			.ambiant = .2f,
+			.diffuse = .5f,
+			.specular = .9f
+		}
+	};
+
+	for (int i = 0; i < 6; i++) {
+		for (int j = 0; j < 6; j++) {
+			s.center.y += 0.7f;
+			ft_lstpush_back(&hitable_list, ft_lstnew(&s, sizeof(t_sphere)));
+		}
+		s.center.y = -2.5f;
+		s.center.x += 0.7f;
+	}
+
+	t_plane p = {
+		.type = PLANE,
+		.origin = (t_v3){.0f, .0f, -2.0f},
+		.normal = (t_v3){.0f, .0f, 1.f},
+		.material = (t_material){
+			.type = LAMBERTIAN,
+			.color = (t_v3){122.0f, 122.0f, 122.0f},
+			.ambiant = .2f,
+			.diffuse = .5f,
 			.specular = .0f
 		}
 	};
-	ft_lstpush_back(&hitable_list, ft_lstnew(&s, sizeof(t_sphere)));
+	ft_lstpush_back(&hitable_list, ft_lstnew(&p, sizeof(t_plane)));
+	
+	t_cylinder cylinder = {
+		.type = CYLINDER,
+		.origin = (t_v3){2.0f, .0f, -1.0f},
+		.direction = (t_v3){.0f, 1.0f, .0f},
+		.radius = .6f,
+		.material = (t_material){
+			.type = LAMBERTIAN,
+			.color = (t_v3){.0f, 122.0f, .0f},
+			.ambiant = .2f,
+			.diffuse = .5f,
+			.specular = .1f
+		}
+	};
+	ft_lstpush_back(&hitable_list, ft_lstnew(&cylinder, sizeof(t_cylinder)));
+
 
 	start_threads(app, hitable_list);
 	return (NULL);

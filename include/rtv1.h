@@ -6,7 +6,7 @@
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 16:28:16 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/04/17 19:16:33 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/04/18 03:48:02 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ typedef struct		s_v3
 	float			z;
 }					t_v3;
 
+# define LIGHT_COLOR ((t_v3){255.0f, 255.0f, 255.0f})
+
 typedef enum		e_material_type
 {
 	LAMBERTIAN
@@ -63,7 +65,9 @@ typedef struct		s_material
 
 typedef enum		e_hitable_type
 {
-	SPHERE
+	SPHERE,
+	PLANE,
+	CYLINDER
 }					t_hitable_type;
 
 typedef struct		s_hitable
@@ -80,6 +84,23 @@ typedef struct		s_sphere
 	float			radius;
 }					t_sphere;
 
+typedef struct		s_cylinder
+{
+	t_hitable_type	type;
+	t_material		material;
+	t_v3			origin;
+	t_v3			direction;
+	float			radius;
+}					t_cylinder;
+
+typedef struct		s_plane
+{
+	t_hitable_type	type;
+	t_material		material;
+	t_v3			origin;
+	t_v3			normal;
+}					t_plane;
+
 typedef struct		s_ray
 {
 	t_v3			origin;
@@ -92,6 +113,7 @@ typedef struct		s_hit_record
 	t_v3			p;
 	t_v3			normal;
 	t_material		material;
+	t_list			*item_hit;
 }					t_hit_record;
 
 typedef struct		s_image
@@ -143,6 +165,13 @@ int					start_threads(t_app *app, t_list *hitable_list);
 
 t_v3				compute_ray_color(t_app *app, t_ray r, t_list *hitable_list);
 
+t_v3				ray_point_at_parameter(t_ray r, float t);
+char				ray_hit_sphere(t_sphere *sphere, t_ray r, t_v2 t_min_max,
+						t_hit_record *rec);
+char				ray_hit_plane(t_plane *plane, t_ray ray, t_v2 t_min_max,
+						t_hit_record *rec);
+char				ray_hit_cylinder(t_cylinder *cylinder, t_ray ray, t_v2 t_min_max, t_hit_record *rec);
+
 void				v3_print(t_v3 v, char *msg);
 t_v3				v3_add(t_v3 a, t_v3 b);
 t_v3				v3_mul(t_v3 a, t_v3 b);
@@ -157,5 +186,6 @@ float				v3_length(t_v3 v);
 float				v3_dot(t_v3 a, t_v3 b);
 t_v3				v3_reverse(t_v3 src);
 float				v3_squared_length(t_v3 v);
+t_v3				rotate(t_v3 v, t_v3 rotation);
 
 #endif

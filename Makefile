@@ -6,7 +6,7 @@
 #    By: ngrasset <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/18 16:13:25 by ngrasset          #+#    #+#              #
-#    Updated: 2018/04/17 17:45:07 by ngrasset         ###   ########.fr        #
+#    Updated: 2018/04/18 04:00:59 by ngrasset         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = rtv1
 
 C_DIR = src
 
-C_FILES = src/main.c src/camera.c src/v3.c src/threads.c src/ray.c
+C_FILES = src/main.c src/camera.c src/v3.c src/threads.c src/ray.c src/hitable.c src/rotation.c
 
 O_DIR =	.tmp/obj
 O_FILES = $(C_FILES:$(C_DIR)%.c=$(O_DIR)%.o)

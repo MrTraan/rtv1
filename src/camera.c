@@ -6,7 +6,7 @@
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 16:39:26 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/04/17 18:23:04 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/04/18 00:29:43 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void		camera_init(t_camera *cam)
 
 	half_height = tan(CAMERA_THETA / 2);
 	half_width = WIN_WIDTH / WIN_HEIGHT * half_height;
-	cam->lookfrom = (t_v3){.0f, 3.0f, -10.0f};
+	cam->lookfrom = (t_v3){.0f, 0.0f, 15.0f};
 	cam->lookat = (t_v3){0.0f, 0.0f, 0.0f};
 	cam->up = (t_v3){0.0f, 1.0f, 0.0f};
 	cam->w = v3_unit(v3_sub(cam->lookfrom, cam->lookat));
@@ -34,7 +34,7 @@ void		camera_init(t_camera *cam)
 	cam->horizontal = v3_mul_float(cam->u, 2 * half_width * CAMERA_FOCUS_DIST);
 	cam->vertical = v3_mul_float(cam->v, 2 * half_height * CAMERA_FOCUS_DIST);
 	cam->origin = cam->lookfrom;
-	cam->light = (t_v3){-5.0f, 4.0f, -10.0f};
+	cam->light = (t_v3){-5.0f, 4.0f, 10.0f};
 }
 
 t_ray		camera_get_ray(t_camera *cam, t_iv2 point)
