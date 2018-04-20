@@ -16,8 +16,16 @@
 #include <stdio.h>
 void		draw_pixel(t_app *app, t_iv2 point, int color)
 {
+	pthread_mutex_lock(&(app->mutex));
 	*(app->image.data + (point.x + (WIN_WIDTH * point.y))) =
 		(int)mlx_get_color_value(app->mlx, color);
+	pthread_mutex_unlock(&(app->mutex));
+}
+
+void		delete_itable(void *hitable, size_t size)
+{
+	(void)size;
+	free(hitable);
 }
 
 static int		handle_key_event(int keycode, void *param)
@@ -27,7 +35,13 @@ static int		handle_key_event(int keycode, void *param)
 	app = (t_app*)param;
 	(void)app;
 	if (keycode == 53 || keycode == 65307)
+	{
+		pthread_mutex_lock(&(app->mutex));
+		mlx_destroy_image(app->mlx, app->image.ptr);
+		mlx_destroy_window(app->mlx, app->win);
+		ft_lstdel(&(app->hitable_list), delete_itable);
 		exit(1);
+	}
 	return (0);
 }
 
@@ -120,7 +134,7 @@ void			*main_draw_loop(void *v_app)
 		}
 	};
 	ft_lstpush_back(&hitable_list, ft_lstnew(&cylinder, sizeof(t_cylinder)));
-
+	app->hitable_list = hitable_list;
 
 	start_threads(app, hitable_list);
 	return (NULL);
@@ -131,6 +145,8 @@ int				main(void)
 	t_app		app;
 	pthread_t	loop_thread;
 	
+	app.rendered = 0;
+	pthread_mutex_init(&(app.mutex), NULL);
 	app.mlx = mlx_init();
 	app.win = mlx_new_window(app.mlx, WIN_WIDTH, WIN_HEIGHT, "RTv1");
 	mlx_key_hook(app.win, handle_key_event, &app);

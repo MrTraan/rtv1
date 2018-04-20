@@ -27,8 +27,15 @@ void		*compute_part(void *param)
 		{
 			for (point.y = b; point.y < WIN_HEIGHT; point.y+=SKIP_N) {
 				for (point.x = thread_data->start_x + a; point.x < thread_data->end_x; point.x+=SKIP_N) {
-					r = camera_get_ray(&(thread_data->app->camera), point);
-					color = compute_ray_color(thread_data->app, r, thread_data->hitable_list);
+					color = (t_v3){0, 0, 0};
+					for (int i = 0; i < AA_ITER; i++) {
+						float u = ((float)point.x + ft_rand()) / (float)WIN_WIDTH;
+						float v = ((WIN_HEIGHT - (float)point.y) + ft_rand()) / (float)WIN_HEIGHT;
+						r = camera_get_uv_ray(&(thread_data->app->camera), u, v);
+						color = v3_add(color,
+								compute_ray_color(thread_data->app, r, thread_data->hitable_list));
+					}
+					color = v3_mul_float(color, 1.0f / AA_ITER);
 					draw_pixel(thread_data->app, point, v3_to_color(color));
 				}
 			}

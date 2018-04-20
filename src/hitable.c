@@ -27,10 +27,10 @@ t_v3		cylinder_normal(t_cylinder *cylinder, t_v3 e, t_v3 d, double t)
 char		ray_hit_cylinder(t_cylinder *cylinder, t_ray ray, t_v2 t_min_max, t_hit_record *rec)
 {
 	float		discriminant;
-	float 	temp;
-	t_v3 v;
-	t_v3 e;
-	t_v3 d;
+	float 		temp;
+	t_v3		v;
+	t_v3		e;
+	t_v3		d;
 
 	e = rotate(v3_sub(ray.origin, cylinder->origin), v3_reverse(cylinder->direction));
 	d = rotate(ray.direction, v3_reverse(cylinder->direction));

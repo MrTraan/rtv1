@@ -53,3 +53,16 @@ t_ray		camera_get_ray(t_camera *cam, t_iv2 point)
 	};
 	return (r);
 }
+
+t_ray		camera_get_uv_ray(t_camera *cam, float u, float v)
+{
+	t_ray	r;
+
+	r.origin = cam->origin;
+	r.direction = (t_v3) {
+		.x = cam->lower_left_corner.x + u * cam->horizontal.x + v * cam->vertical.x - cam->origin.x,
+		.y = cam->lower_left_corner.y + u * cam->horizontal.y + v * cam->vertical.y - cam->origin.y,
+		.z = cam->lower_left_corner.z + u * cam->horizontal.z + v * cam->vertical.z - cam->origin.z,
+	};
+	return (r);
+}

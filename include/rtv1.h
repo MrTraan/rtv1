@@ -17,6 +17,7 @@
 # include <math.h>
 # include <sys/time.h>
 # include <libft.h>
+# include <pthread.h>
 
 # define TO_RADIAN(x)	(x * M_PI/ 180)
 
@@ -27,6 +28,7 @@
 # define NB_THREADS		4
 # define SKIP_N			4
 # define SPECULAR_POW	50
+# define AA_ITER		10
 
 typedef struct		s_iv2
 {
@@ -146,6 +148,8 @@ typedef struct		s_app
 	t_camera		camera;
 	char			rendered;
 	struct timeval	last_render;
+	t_list			*hitable_list;
+	pthread_mutex_t	mutex;
 }					t_app;
 
 typedef struct		s_thread_data
@@ -158,6 +162,7 @@ typedef struct		s_thread_data
 
 void				camera_init(t_camera *cam);
 t_ray				camera_get_ray(t_camera *cam, t_iv2 point);
+t_ray				camera_get_uv_ray(t_camera *cam, float u, float v);
 
 void				draw_pixel(t_app *app, t_iv2 point, int color);
 
