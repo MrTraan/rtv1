@@ -6,7 +6,7 @@
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 16:58:33 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/04/17 17:39:10 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/04/20 18:50:34 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void		*compute_part(void *param)
 				for (point.x = thread_data->start_x + a; point.x < thread_data->end_x; point.x+=SKIP_N) {
 					color = (t_v3){0, 0, 0};
 					for (int i = 0; i < AA_ITER; i++) {
-						float u = ((float)point.x + ft_rand()) / (float)WIN_WIDTH;
-						float v = ((WIN_HEIGHT - (float)point.y) + ft_rand()) / (float)WIN_HEIGHT;
+						float u = ((float)point.x + ft_rand() - 0.5f) / (float)WIN_WIDTH;
+						float v = ((WIN_HEIGHT - (float)point.y) + ft_rand() - 0.5f) / (float)WIN_HEIGHT;
 						r = camera_get_uv_ray(&(thread_data->app->camera), u, v);
 						color = v3_add(color,
 								compute_ray_color(thread_data->app, r, thread_data->hitable_list));
