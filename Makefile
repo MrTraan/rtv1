@@ -19,8 +19,16 @@ C_FILES = src/main.c src/camera.c src/v3.c src/threads.c src/ray.c src/hitable.c
 O_DIR =	.tmp/obj
 O_FILES = $(C_FILES:$(C_DIR)%.c=$(O_DIR)%.o)
 
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S), Linux)
+	MLX_DIR	=	libmlx_linux
+endif
+ifeq ($(UNAME_S), Darwin)
+	MLX_DIR	=	libmlx
+endif
+
 FLAGS = -Wall -Wextra -Werror -O3 -fsanitize=address
-INCLUDES = -I ./include -I ./libft/includes -I./libmlx
+INCLUDES = -I ./include -I ./libft/includes -I./$(MLX_DIR)
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S), Linux)
@@ -35,6 +43,8 @@ CC = clang
 all: $(NAME)
 
 $(NAME): $(O_FILES)
+	make -C libft
+	make -C $(MLX_DIR)
 	$(CC) $(FLAGS) $^ $(INCLUDES) $(LIB) -o $@
 
 $(O_DIR)%.o: $(C_DIR)%.c
@@ -42,6 +52,8 @@ $(O_DIR)%.o: $(C_DIR)%.c
 	$(CC) $(FLAGS) $(INCLUDES) -o $@ -c $<
 
 clean:
+	make clean -C libft
+	make clean -C $(MLX_DIR)
 	@rm -Rf $(O_DIR)
 
 fclean: clean
