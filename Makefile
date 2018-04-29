@@ -47,6 +47,8 @@ $(NAME): $(O_FILES)
 	make -C $(MLX_DIR)
 	$(CC) $(FLAGS) $^ $(INCLUDES) $(LIB) -o $@
 
+$(O_FILES): include/rtv1.h
+
 $(O_DIR)%.o: $(C_DIR)%.c
 	@mkdir -p $(O_DIR)
 	$(CC) $(FLAGS) $(INCLUDES) -o $@ -c $<
