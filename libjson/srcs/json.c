@@ -1,0 +1,113 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   json.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbousque <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/04/28 17:13:37 by dbousque          #+#    #+#             */
+/*   Updated: 2018/04/28 17:13:39 by dbousque         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libjson.h"
+
+char	*take_up_to_char(char *buf, int *i, char c_preceed[2], int *len)
+{
+	int		start;
+	char	*res;
+
+	start = *i;
+	while (buf[*i] && (buf[*i] != c_preceed[0]
+		|| (*i > 0 && buf[*i - 1] == c_preceed[1])))
+	{
+		(*i)++;
+	}
+	*len = *i - start;
+	if (!(res = (char*)malloc(sizeof(char) * (*len + 1))))
+		malloc_error();
+	res[*len] = '\0';
+	return (ft_strncpy2(res, buf + start, *len));
+}
+
+t_list2	*new_list_elt(void *content, int content_size)
+{
+	t_list2	*res;
+
+	if (!(res = (t_list2*)malloc(sizeof(t_list2))))
+		malloc_error();
+	res->content = content;
+	res->content_size = content_size;
+	res->next = NULL;
+	return (res);
+}
+
+t_value	*string_value(char *buf, int *i)
+{
+	char	*str;
+	int		len;
+	t_value	*res;
+	char	c_preceed[2];
+
+	c_preceed[0] = '"';
+	c_preceed[1] = '\\';
+	go_to_next_char(buf, i, '"');
+	(*i)++;
+	str = take_up_to_char(buf, i, c_preceed, &len);
+	(*i)++;
+	if (!(res = (t_value*)malloc(sizeof(t_value))))
+		malloc_error();
+	res->data = (void*)str;
+	res->type = STRING;
+	return (res);
+}
+
+void	populate_dict(t_dict *dict, t_list2 *keys, t_list2 *values, int len)
+{
+	int		i;
+	t_list2	*tmp;
+
+	dict->values[len] = NULL;
+	dict->keys[len] = NULL;
+	i = 0;
+	while (keys)
+	{
+		dict->keys[i] = (char*)keys->content;
+		dict->values[i] = (t_value*)values->content;
+		tmp = keys;
+		keys = keys->next;
+		free(tmp);
+		tmp = values;
+		values = values->next;
+		free(tmp);
+		i++;
+	}
+}
+
+t_value	*keys_n_values_to_value(t_list2 *keys, t_list2 *values)
+{
+	int		len;
+	t_list2	*tmp;
+	t_dict	*dict;
+	t_value	*ret_val;
+
+	len = 0;
+	tmp = keys;
+	while (tmp)
+	{
+		len++;
+		tmp = tmp->next;
+	}
+	if (!(dict = (t_dict*)malloc(sizeof(t_dict))))
+		malloc_error();
+	if (!(dict->keys = (char**)malloc(sizeof(char*) * (len + 1))))
+		malloc_error();
+	if (!(dict->values = (t_value**)malloc(sizeof(t_value*) * (len + 1))))
+		malloc_error();
+	populate_dict(dict, keys, values, len);
+	if (!(ret_val = (t_value*)malloc(sizeof(t_value))))
+		malloc_error();
+	ret_val->type = DICT;
+	ret_val->data = (void*)dict;
+	return (ret_val);
+}

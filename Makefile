@@ -14,7 +14,14 @@ NAME = rtv1
 
 C_DIR = src
 
-C_FILES = src/main.c src/camera.c src/v3.c src/threads.c src/ray.c src/hitable.c src/rotation.c
+C_FILES = 	src/main.c \
+			src/camera.c \
+			src/v3.c \
+			src/threads.c \
+			src/ray.c \
+			src/hitable.c \
+			src/rotation.c \
+			src/read_scene.c
 
 O_DIR =	.tmp/obj
 O_FILES = $(C_FILES:$(C_DIR)%.c=$(O_DIR)%.o)
@@ -28,14 +35,14 @@ ifeq ($(UNAME_S), Darwin)
 endif
 
 FLAGS = -Wall -Wextra -Werror -O3 -fsanitize=address
-INCLUDES = -I ./include -I ./libft/includes -I./$(MLX_DIR)
+INCLUDES = -I ./include -I ./libft/includes -I ./libjson -I./$(MLX_DIR)
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S), Linux)
-	LIB = -L./libft -lft -L./libmlx_linux -lmlx -lXext -lX11 -lm -pthread
+	LIB = -L./libft -lft -L./libjson -ljson -L./libmlx_linux -lmlx -lXext -lX11 -lm -pthread
 endif
 ifeq ($(UNAME_S), Darwin)
-	LIB = -L./libft -lft -L./libmlx -lmlx -framework OpenGL -framework AppKit
+	LIB = -L./libft -lft -L./libjson -ljson -L./libmlx -lmlx -framework OpenGL -framework AppKit
 endif
 
 CC = clang
@@ -45,6 +52,7 @@ all: $(NAME)
 $(NAME): $(O_FILES)
 	make -C libft
 	make -C $(MLX_DIR)
+	make -C libjson
 	$(CC) $(FLAGS) $^ $(INCLUDES) $(LIB) -o $@
 
 $(O_FILES): include/rtv1.h
@@ -56,6 +64,7 @@ $(O_DIR)%.o: $(C_DIR)%.c
 clean:
 	make clean -C libft
 	make clean -C $(MLX_DIR)
+	make clean -C libjson
 	@rm -Rf $(O_DIR)
 
 fclean: clean
