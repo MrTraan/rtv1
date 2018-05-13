@@ -6,7 +6,7 @@
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 17:34:45 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/04/18 04:08:56 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/13 13:24:22 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ char	ray_hit(t_ray r, t_hitable *hitable, t_v2 boundaries, t_hit_record *rec)
 		return ray_hit_plane((t_plane *)hitable, r, boundaries, rec);
 	if (hitable->type == CYLINDER)
 		return ray_hit_cylinder((t_cylinder *)hitable, r, boundaries, rec);
+	if (hitable->type == CONE)
+		return ray_hit_cone((t_cone *)hitable, r, boundaries, rec);
 	return (0);
 }
 
@@ -79,6 +81,9 @@ t_v3		phong_shading(t_app *app, t_hit_record hit, t_ray ray)
 
 	t_v3 l = v3_unit(v3_sub(app->camera.light, hit.p));
 	angle = v3_dot(v3_unit(hit.normal), l);
+
+	if (angle < 0)
+		return (v3_mul_float(hit.material.color, hit.material.ambiant));
 
 	float d = v3_dot(v3_unit(ray.direction), v3_sub(l, v3_mul_float(hit.normal, 2 * angle)));
 

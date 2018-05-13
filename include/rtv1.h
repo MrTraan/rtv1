@@ -1,4 +1,6 @@
 /* ************************************************************************** */
+
+
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   rtv1.h                                             :+:      :+:    :+:   */
@@ -69,7 +71,8 @@ typedef enum		e_hitable_type
 {
 	SPHERE,
 	PLANE,
-	CYLINDER
+	CYLINDER,
+	CONE
 }					t_hitable_type;
 
 typedef struct		s_hitable
@@ -94,6 +97,15 @@ typedef struct		s_cylinder
 	t_v3			direction;
 	float			radius;
 }					t_cylinder;
+
+typedef struct		s_cone
+{
+	t_hitable_type	type;
+	t_material		material;
+	t_v3			origin;
+	t_v3			direction;
+	float			alpha;
+}					t_cone;
 
 typedef struct		s_plane
 {
@@ -176,6 +188,7 @@ char				ray_hit_sphere(t_sphere *sphere, t_ray r, t_v2 t_min_max,
 char				ray_hit_plane(t_plane *plane, t_ray ray, t_v2 t_min_max,
 						t_hit_record *rec);
 char				ray_hit_cylinder(t_cylinder *cylinder, t_ray ray, t_v2 t_min_max, t_hit_record *rec);
+char				ray_hit_cone(t_cone *cone, t_ray ray, t_v2 t_min_max, t_hit_record *rec);
 
 void				v3_print(t_v3 v, char *msg);
 t_v3				v3_add(t_v3 a, t_v3 b);

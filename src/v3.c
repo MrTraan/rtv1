@@ -6,7 +6,7 @@
 /*   By: ngrasset <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/10 13:24:39 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/04/17 19:09:42 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/04/28 17:42:20 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,16 @@ t_v3		v3_divide(t_v3 a, t_v3 b)
 	};
 	return (res);
 }
-#define MIN(a, b) (a < b ? a : b)
+
 int			v3_to_color(t_v3 v)
 {
-	return ((int)MIN(v.z, 255.0f) + ((int)MIN(v.y, 255.0f) << 8) + ((int)MIN(v.x, 255.0f) << 16));
+	if (v.x > 255.0f)
+		v.x = 255.0f;
+	if (v.y > 255.0f)
+		v.y = 255.0f;
+	if (v.z > 255.0f)
+		v.z = 255.0f;
+	return ((int)v.z + ((int)v.y << 8) + ((int)v.x << 16));
 }
 
 float		v3_length(t_v3 v)

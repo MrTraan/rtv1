@@ -6,7 +6,7 @@
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 16:39:26 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/04/18 00:29:43 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/13 13:28:09 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void		camera_init(t_camera *cam)
 
 	half_height = tan(CAMERA_THETA / 2);
 	half_width = WIN_WIDTH / WIN_HEIGHT * half_height;
-	cam->lookfrom = (t_v3){.0f, 0.0f, 15.0f};
+	cam->lookfrom = (t_v3){0.0f, 0.0f, 15.0f};
 	cam->lookat = (t_v3){0.0f, 0.0f, 0.0f};
 	cam->up = (t_v3){0.0f, 1.0f, 0.0f};
 	cam->w = v3_unit(v3_sub(cam->lookfrom, cam->lookat));
