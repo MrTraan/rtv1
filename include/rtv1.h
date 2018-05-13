@@ -20,6 +20,8 @@
 # include <sys/time.h>
 # include <libft.h>
 # include <pthread.h>
+# include <fcntl.h>
+# include "libjson.h"
 
 # define TO_RADIAN(x)	(x * M_PI/ 180)
 
@@ -205,5 +207,6 @@ float				v3_dot(t_v3 a, t_v3 b);
 t_v3				v3_reverse(t_v3 src);
 float				v3_squared_length(t_v3 v);
 t_v3				rotate(t_v3 v, t_v3 rotation);
+void				read_scene(t_app *app, int argc, char **argv);
 
 #endif

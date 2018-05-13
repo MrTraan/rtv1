@@ -6,13 +6,12 @@
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 16:27:49 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/05/13 14:07:56 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/13 14:49:53 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rtv1.h>
 #include <stdlib.h>
-#include <pthread.h>
 #include <stdio.h>
 void		draw_pixel(t_app *app, t_iv2 point, int color)
 {
@@ -80,99 +79,11 @@ void			*main_draw_loop(void *v_app)
 		return (0);
 	gettimeofday(&(app->last_render), NULL);
 	app->rendered = 1;
-
-	t_list *hitable_list;
-	hitable_list = NULL;
-
-	t_sphere s = {
-		.type = SPHERE,
-		.center = (t_v3){-2.5f, -2.5f, .0f},
-		.radius = .3f,
-		.material = (t_material){
-			.type = LAMBERTIAN,
-			.color = (t_v3){255.0f, .0f, .0f},
-			.ambiant = .2f,
-			.diffuse = .5f,
-			.specular = .9f
-		}
-	};
-
-	for (int i = 0; i < 6; i++) {
-		for (int j = 0; j < 6; j++) {
-			s.center.y += 0.7f;
-			/* ft_lstpush_back(&hitable_list, ft_lstnew(&s, sizeof(t_sphere))); */
-		}
-		s.center.y = -2.5f;
-		s.center.x += 0.7f;
-	}
-
-	/* t_plane p = { */
-	/* 	.type = PLANE, */
-	/* 	.origin = (t_v3){.0f, .0f, -10.0f}, */
-	/* 	.normal = (t_v3){.0f, .0f, 1.f}, */
-	/* 	.material = (t_material){ */
-	/* 		.type = LAMBERTIAN, */
-	/* 		.color = (t_v3){122.0f, 122.0f, 122.0f}, */
-	/* 		.ambiant = .2f, */
-	/* 		.diffuse = .5f, */
-	/* 		.specular = .0f */
-	/* 	} */
-	/* }; */
-	/* ft_lstpush_back(&hitable_list, ft_lstnew(&p, sizeof(t_plane))); */
-	/* (void)p; */
-	t_plane p = {
-		.type = PLANE,
-		.origin = (t_v3){.0f, -2.0f, -10.0f},
-		.normal = (t_v3){.0f, 1.0f, 0.f},
-		.material = (t_material){
-			.type = LAMBERTIAN,
-			.color = (t_v3){122.0f, 122.0f, 122.0f},
-			.ambiant = .2f,
-			.diffuse = .5f,
-			.specular = .0f
-		}
-	};
-	ft_lstpush_back(&hitable_list, ft_lstnew(&p, sizeof(t_plane)));
-	(void)p;
-	
-	t_cylinder cylinder = {
-		.type = CYLINDER,
-		.origin = (t_v3){2.0f, .0f, -1.0f},
-		.direction = (t_v3){00.0f, 0.0f, 0.0f},
-		.radius = .6f,
-		.material = (t_material){
-			.type = LAMBERTIAN,
-			.color = (t_v3){0.0f, 122.0f, .0f},
-			.ambiant = .2f,
-			.diffuse = .5f,
-			.specular = .1f
-		}
-	};
-	ft_lstpush_back(&hitable_list, ft_lstnew(&cylinder, sizeof(t_cylinder)));
-	(void)cylinder;
-
-	t_cone cone = {
-		.type = CONE,
-		.origin = (t_v3){0.0f, .0f, -1.0f},
-		.direction = v3_unit((t_v3){0.5f, 0.5f, 0.0f}),
-		.alpha = 30,
-		.material = (t_material){
-			.type = LAMBERTIAN,
-			.color = (t_v3){.0f, 122.0f, .0f},
-			.ambiant = .2f,
-			.diffuse = .5f,
-			.specular = .1f
-		}
-	};
-	ft_lstpush_back(&hitable_list, ft_lstnew(&cone, sizeof(t_cone)));
-	(void)cone;
-	app->hitable_list = hitable_list;
-
-	start_threads(app, hitable_list);
+	start_threads(app, app->hitable_list);
 	return (NULL);
 }
 
-int				main(void)
+int				main(int argc, char **argv)
 {
 	t_app		app;
 	pthread_t	loop_thread;
@@ -187,6 +98,7 @@ int				main(void)
 	app.image.data = (int *)mlx_get_data_addr(app.image.ptr, app.image.infos,
 			app.image.infos + 1, app.image.infos + 2);
 	camera_init(&(app.camera));
+	read_scene(&app, argc, argv);
 	pthread_create(&loop_thread, NULL, main_draw_loop, &app);
 	mlx_loop_hook(app.mlx, main_loop, &app);
 	mlx_loop(app.mlx);

@@ -44,12 +44,31 @@ void		*compute_part(void *param)
 	return (NULL);
 }
 
+int			wait_for_threads_to_finish(pthread_t *threads)
+{
+	int		i;
+
+	i = 0;
+	while (i < NB_THREADS)
+	{
+		if (pthread_join(threads[i], NULL) != 0)
+		{
+			ft_putstr("Error while waiting for thread\n");
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
 int			start_threads(t_app *app, t_list *hitable_list)
 {
 	t_thread_data	threads_data[NB_THREADS];
 	pthread_t		threads[NB_THREADS];
+	int				i;
 
-	for (int i = 0; i < NB_THREADS; i++)
+	i = 0;
+	while (i < NB_THREADS)
 	{
 		threads_data[i] = (t_thread_data) {
 			.app = app,
@@ -62,14 +81,7 @@ int			start_threads(t_app *app, t_list *hitable_list)
 			ft_putstr("Error while creating thread\n");
 			return (1);
 		}
+		i++;
 	}
-	for (int i = 0; i < NB_THREADS; i++)
-	{
-		if (pthread_join(threads[i], NULL) != 0)
-		{
-			ft_putstr("Error while waiting for thread\n");
-			return (1);
-		}
-	}
-	return (0);
+	return (wait_for_threads_to_finish(threads));
 }

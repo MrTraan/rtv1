@@ -1,0 +1,6 @@
+rtv1
+.tmp/
+libmlx_linux/**/*.o
+libmlx_linux/libmlx.a
+libmlx_linux/libmlx_x86_64.a
+libmlx_linux/test/mlx-test
