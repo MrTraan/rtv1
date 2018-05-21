@@ -71,8 +71,8 @@ void	set_default_scene(t_app *app)
 	t_cone cone = {
 		.type = CONE,
 		.origin = (t_v3){0.0f, .0f, -1.0f},
-		.direction = v3_unit((t_v3){0.5f, 0.5f, 0.0f}),
-		.alpha = 30,
+		.direction = v3_unit((t_v3){TO_RADIAN(45.f), TO_RADIAN(45.0f), TO_RADIAN(0.0f)}),
+		.alpha = 10,
 		.material = (t_material){
 			.type = LAMBERTIAN,
 			.color = (t_v3){.0f, 122.0f, .0f},

@@ -32,12 +32,28 @@ char			ray_hit_cone(t_cone *cone, t_ray ray, t_v2 t_min_max, t_hit_record *rec)
 	float 		c;
 	float 		k = tan(cone->alpha * M_PI / 180 / 2);
 
+
 	t_v3 x = v3_sub(ray.origin, cone->origin);
 	float m = v3_dot(ray.direction, cone->direction) + v3_dot(x, cone->direction);
 
 	a = v3_dot(ray.direction, ray.direction) - (1 + k * k) * pow(v3_dot(ray.direction, cone->direction), 2);
 	b = 2 * v3_dot(ray.direction, x) - (1 + k * k) * v3_dot(ray.direction, cone->direction) * v3_dot(x, cone->direction);
 	c = v3_dot(x, x) - (1 + k * k) * pow(v3_dot(x, cone->direction), 2);
+
+	t_v3	e;
+	t_v3	d;
+	t_v3	v;
+
+	e = v3_rot(v3_sub(ray.origin, cone->origin), cone->direction);
+	d = v3_rot(ray.direction, cone->direction);
+	v.x = (d.x * d.x) + (d.z * d.z) - (d.y * d.y * k);
+	v.y = 2 * ((e.x * d.x) + (e.z * d.z)) - 2 * (e.y * d.y * k);
+	v.z = (e.x * e.x) + (e.z * e.z) - (e.y * e.y) * k;
+	a = v.x;
+	b = v.y;
+	c = v.z;
+
+
 	discriminant = b * b - 4 * a * c;
 	if (discriminant < 0)
 		return (0);
@@ -54,6 +70,7 @@ char			ray_hit_cone(t_cone *cone, t_ray ray, t_v2 t_min_max, t_hit_record *rec)
 			v3_sub(rec->p, cone->origin),
 			v3_mul_float(cone->direction, (1 + k * k) * m)
 			));
+	rec->normal = v3_rot(rec->normal, cone->direction);
 	rec->material = cone->material;
 	return (1);
 }

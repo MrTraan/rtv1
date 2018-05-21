@@ -32,7 +32,7 @@
 # define NB_THREADS		4
 # define SKIP_N			4
 # define SPECULAR_POW	50
-# define AA_ITER		10
+# define AA_ITER		1
 
 typedef struct		s_iv2
 {
@@ -206,6 +206,10 @@ float				v3_length(t_v3 v);
 float				v3_dot(t_v3 a, t_v3 b);
 t_v3				v3_reverse(t_v3 src);
 float				v3_squared_length(t_v3 v);
+t_v3				v3_rot_x(t_v3 src, float angle);
+t_v3				v3_rot_y(t_v3 src, float angle);
+t_v3				v3_rot_z(t_v3 src, float angle);
+t_v3				v3_rot(t_v3 src, t_v3 rotation);
 t_v3				rotate(t_v3 v, t_v3 rotation);
 void				read_scene(t_app *app, int argc, char **argv);
 

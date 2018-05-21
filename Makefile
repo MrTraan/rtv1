@@ -48,7 +48,7 @@ endif
 
 CC = clang
 
-all: $(NAME)
+all: $(NAME) ./include/rtv1.h
 
 $(NAME): $(O_FILES)
 	make -C libft
