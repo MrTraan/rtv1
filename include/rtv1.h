@@ -21,7 +21,6 @@
 # include <libft.h>
 # include <pthread.h>
 # include <fcntl.h>
-# include "libjson.h"
 
 # define TO_RADIAN(x)	(x * M_PI/ 180)
 
@@ -32,7 +31,12 @@
 # define NB_THREADS		4
 # define SKIP_N			4
 # define SPECULAR_POW	50
-# define AA_ITER		1
+# define AA_ITER		10
+
+# define CAM_DEFAULT_POS ((t_v3){0.0f, 0.0f, 5.0f})
+# define CAM_DEFAULT_LOOKAT ((t_v3){0.0f, 0.0f, 0.0f})
+# define CAM_DEFAULT_UP ((t_v3){0.0f, 1.0f, 0.0f})
+# define CAM_DEFAULT_LIGHT ((t_v3){-5.0, 5.0, 5.0})
 
 typedef struct		s_iv2
 {
@@ -174,7 +178,7 @@ typedef struct		s_thread_data
 	int				end_x;
 }					t_thread_data;
 
-void				camera_init(t_camera *cam);
+void				camera_init(t_camera *cam, t_v3 pos, t_v3 up, t_v3 lookat, t_v3 light);
 t_ray				camera_get_ray(t_camera *cam, t_iv2 point);
 t_ray				camera_get_uv_ray(t_camera *cam, float u, float v);
 

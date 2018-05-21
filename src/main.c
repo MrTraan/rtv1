@@ -6,7 +6,7 @@
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 16:27:49 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/05/13 14:49:53 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/21 15:40:14 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int				main(int argc, char **argv)
 	app.image.ptr = mlx_new_image(app.mlx, WIN_WIDTH, WIN_HEIGHT);
 	app.image.data = (int *)mlx_get_data_addr(app.image.ptr, app.image.infos,
 			app.image.infos + 1, app.image.infos + 2);
-	camera_init(&(app.camera));
+	camera_init(&(app.camera), CAM_DEFAULT_POS, CAM_DEFAULT_UP, CAM_DEFAULT_LOOKAT, CAM_DEFAULT_LIGHT);
 	read_scene(&app, argc, argv);
 	pthread_create(&loop_thread, NULL, main_draw_loop, &app);
 	mlx_loop_hook(app.mlx, main_loop, &app);

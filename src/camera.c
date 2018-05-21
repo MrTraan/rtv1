@@ -6,22 +6,22 @@
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 16:39:26 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/05/13 13:28:09 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/21 15:39:50 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rtv1.h>
 
-void		camera_init(t_camera *cam)
+void		camera_init(t_camera *cam, t_v3 pos, t_v3 up, t_v3 lookat, t_v3 light)
 {
 	float	half_height;
 	float	half_width;
 
 	half_height = tan(CAMERA_THETA / 2);
 	half_width = WIN_WIDTH / WIN_HEIGHT * half_height;
-	cam->lookfrom = (t_v3){0.0f, 0.0f, 15.0f};
-	cam->lookat = (t_v3){0.0f, 0.0f, 0.0f};
-	cam->up = (t_v3){0.0f, 1.0f, 0.0f};
+	cam->lookfrom = pos;
+	cam->up = up;
+	cam->lookat = lookat;
 	cam->w = v3_unit(v3_sub(cam->lookfrom, cam->lookat));
 	cam->u = v3_unit(v3_cross(cam->up, cam->w));
 	cam->v = v3_cross(cam->w, cam->u);
@@ -34,7 +34,7 @@ void		camera_init(t_camera *cam)
 	cam->horizontal = v3_mul_float(cam->u, 2 * half_width * CAMERA_FOCUS_DIST);
 	cam->vertical = v3_mul_float(cam->v, 2 * half_height * CAMERA_FOCUS_DIST);
 	cam->origin = cam->lookfrom;
-	cam->light = (t_v3){-5.0f, 4.0f, 10.0f};
+	cam->light = light;
 }
 
 t_ray		camera_get_ray(t_camera *cam, t_iv2 point)
