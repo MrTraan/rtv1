@@ -6,11 +6,21 @@
 /*   By: dbousque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/03 15:57:53 by dbousque          #+#    #+#             */
-/*   Updated: 2018/05/21 16:18:53 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/22 12:43:16 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
+
+static int str_is_whitespace(char *str)
+{
+	while (*str == ' ' || *str == '\t')
+		str++;
+	if (*str == '\n')
+		return (1);
+	return (0);
+}
+
 
 void	set_default_scene(t_app *app)
 {
@@ -139,79 +149,202 @@ char	*read_whole_file(char *filename, char *error, int max_size)
 	return (res);
 }
 #include <stdio.h>
-int		parse_camera(t_app *app, char *data)
+char		*parse_camera(t_app *app, char *data)
 {
 	t_v3	pos;
 	t_v3	up;
 	t_v3	lookat;
 	t_v3 	light;
-	int 	offset;
+	int		matches;
 
 	pos = CAM_DEFAULT_POS;
 	up = CAM_DEFAULT_UP;
 	lookat = CAM_DEFAULT_LOOKAT;
 	light = CAM_DEFAULT_LIGHT;
-	offset = 0;
-	while (data[offset] && data[offset + 1] != '-')
+	while (data && *data && data[1] != '-')
 	{
-		if (ft_strncmp("-pos ", data + offset, 5) == 0)
+		if (str_is_whitespace(data))
+			data = ft_strchr(data, '\n') + 1;
+		else if (ft_strncmp("-pos ", data, 5) == 0)
 		{
-			int matches = sscanf(data + offset, "-pos %f %f %f\n", &(pos.x), &(pos.y), &(pos.z));
-			if (matches != 3)
-				break;
-			printf("1: %d\n", offset);
-			if (!ft_strchr(data + offset, '\n'))
-				break;
-			printf("remaining: ||%s||\n", ft_strchr(data + offset, '\n'));
-			offset = ft_strchr(data + offset, '\n') - data + 1;
-			printf("2: %d\n", offset);
+			if ((matches = sscanf(data, "-pos %f %f %f\n", &(pos.x), &(pos.y), &(pos.z))) != 3)
+				break ;
+			if (!(data = ft_strchr(data, '\n')))
+				break ;
+			data++;
 		}
-		else if (ft_strncmp("-up ", data + offset, 4) == 0)
+		else if (ft_strncmp("-up ", data, 4) == 0)
 		{
-			int matches = sscanf(data + offset, "-up %f %f %f\n", &(up.x), &(up.y), &(up.z));
-			if (matches != 3)
-				break;
-			if (!ft_strchr(data + offset, '\n'))
-				break;
-			printf("1: %d\n", offset);
-			printf("remaining: ||%s||\n", ft_strchr(data + offset, '\n'));
-			offset = ft_strchr(data + offset, '\n') - data + 1;
-			printf("2: %d\n", offset);
+			if ((matches = sscanf(data, "-up %f %f %f\n", &(up.x), &(up.y), &(up.z))) != 3)
+				break ;
+			if (!(data = ft_strchr(data, '\n')))
+				break ;
+			data++;
 		}
-		else if (ft_strncmp("-lookat ", data + offset, 8) == 0)
+		else if (ft_strncmp("-lookat ", data, 8) == 0)
 		{
-			int matches = sscanf(data + offset, "-lookat %f %f %f\n", &(lookat.x), &(lookat.y), &(lookat.z));
-			if (matches != 3)
-				break;
-			if (!ft_strchr(data + offset, '\n'))
-				break;
-			offset += ft_strchr(data + offset, '\n') - data + offset + 1;
+			if ((matches = sscanf(data, "-lookat %f %f %f\n", &(lookat.x), &(lookat.y), &(lookat.z))) != 3)
+				break ;
+			if (!(data = ft_strchr(data, '\n')))
+				break ;
+			data++;
 		}
-		else if (ft_strncmp("-light ", data + offset, 7) == 0)
+		else if (ft_strncmp("-light ", data, 7) == 0)
 		{
-			int matches = sscanf(data + offset, "-light %f %f %f\n", &(lookat.x), &(lookat.y), &(lookat.z));
-			if (matches != 3)
-				break;
-			if (!ft_strchr(data + offset, '\n'))
-				break;
-			offset += ft_strchr(data + offset, '\n') - data + offset + 1;
+			if ((matches = sscanf(data, "-light %f %f %f\n", &(light.x), &(light.y), &(light.z))) != 3)
+				break ;
+			if (!(data = ft_strchr(data, '\n')))
+				break ;
+			data++;
 		}
 		else
 			break ;
 	}
 	camera_init(&(app->camera), pos, up, lookat, light);
-	return (offset);
+	return (data);
+}
+
+char	*parse_material(t_material *mat, char *data)
+{
+	int		matches;
+
+	mat->type = LAMBERTIAN;
+	while (data && *data && data[1] != '-')
+	{
+		if (str_is_whitespace(data))
+			data = ft_strchr(data, '\n') + 1;
+		else if (ft_strncmp("-color ", data, 7) == 0)
+		{
+			if ((matches = sscanf(data, "-color %f %f %f\n", &(mat->color.x), &(mat->color.y), &(mat->color.z))) != 3)
+				break ;
+			if (!(data = ft_strchr(data, '\n')))
+				break ;
+			data++;
+		}
+		else if (ft_strncmp("-ambiant ", data, 9) == 0)
+		{
+			if ((matches = sscanf(data, "-ambiant %f\n", &(mat->ambiant))) != 1)
+				break ;
+			if (!(data = ft_strchr(data, '\n')))
+				break ;
+			data++;
+		}
+		else if (ft_strncmp("-diffuse ", data, 9) == 0)
+		{
+			if ((matches = sscanf(data, "-diffuse %f\n", &(mat->diffuse))) != 1)
+				break ;
+			if (!(data = ft_strchr(data, '\n')))
+				break ;
+			data++;
+		}
+		else if (ft_strncmp("-specular ", data, 10) == 0)
+		{
+			if ((matches = sscanf(data, "-specular %f\n", &(mat->specular))) != 1)
+				break ;
+			if (!(data = ft_strchr(data, '\n')))
+				break ;
+			data++;
+		}
+		else
+			break ;
+	}
+	return (data);
+
+}
+
+char	*parse_sphere(t_app *app, char *data)
+{
+	t_v3 	pos;
+	float	radius;
+	t_material mat;
+	int		matches;
+	t_sphere s;
+
+	pos = SPHERE_DEFAULT_POS;
+	radius = SPHERE_DEFAULT_RADIUS;
+	mat = SPHERE_DEFAULT_MATERIAL;
+	while (data && *data && data[1] != '-')
+	{
+		if (str_is_whitespace(data))
+			data = ft_strchr(data, '\n') + 1;
+		else if (ft_strncmp("-pos ", data, 5) == 0)
+		{
+			if ((matches = sscanf(data, "-pos %f %f %f\n", &(pos.x), &(pos.y), &(pos.z))) != 3)
+				break ;
+			if (!(data = ft_strchr(data, '\n')))
+				break ;
+			data++;
+		}
+		else if (ft_strncmp("-radius ", data, 8) == 0)
+		{
+			if ((matches = sscanf(data, "-radius %f\n", &radius)) != 1)
+				break ;
+			if (!(data = ft_strchr(data, '\n')))
+				break ;
+			data++;
+		}
+		else if (ft_strncmp("-material\n", data, 10) == 0)
+			data = parse_material(&mat, data + 10);
+		else
+			break ;
+	}
+	s = (t_sphere) { .type = SPHERE, .material = mat, .center = pos, .radius = radius };
+	ft_lstpush_back(&(app->hitable_list), ft_lstnew(&s, sizeof(t_sphere)));
+	return (data);
+}
+
+char	*parse_plane(t_app *app, char *data)
+{
+	t_v3 	pos;
+	t_v3	normal;
+	t_material mat;
+	int matches;
+	t_plane p;
+
+	pos = PLANE_DEFAULT_POS;
+	mat = PLANE_DEFAULT_MATERIAL;
+	while (data && *data && data[1] != '-')
+	{
+		if (str_is_whitespace(data))
+			data = ft_strchr(data, '\n') + 1;
+		else if (ft_strncmp("-pos ", data, 5) == 0)
+		{
+			if ((matches = sscanf(data, "-pos %f %f %f\n", &(pos.x), &(pos.y), &(pos.z))) != 3)
+				break ;
+			if (!(data = ft_strchr(data, '\n')))
+				break ;
+			data++;
+		}
+		else if (ft_strncmp("-normal ", data, 8) == 0)
+		{
+			if ((matches = sscanf(data, "-normal %f %f %f\n", &(normal.x), &(normal.y), &(normal.z))) != 3)
+				break ;
+			if (!(data = ft_strchr(data, '\n')))
+				break ;
+			data++;
+		}
+		else if (ft_strncmp("-material\n", data, 10) == 0)
+			data = parse_material(&mat, data + 10);
+		else
+			break ;
+	}
+	p = (t_plane) { .type = PLANE, .material = mat, .origin = pos, .normal = normal };
+	ft_lstpush_back(&(app->hitable_list), ft_lstnew(&p, sizeof(t_plane)));
+	return (data);
 }
 
 void	interpret_scene_file(t_app *app, char *data)
 {
-	while (*data)
+	while (data && *data)
 	{
-		if (ft_strncmp("--camera\n", data, 9) == 0)
-		{
-			data += 9 + parse_camera(app, data + 9);
-			printf("remaining: ||%s||", data);
-		}
+		if (str_is_whitespace(data))
+			data = ft_strchr(data, '\n') + 1;
+		else if (ft_strncmp("--camera\n", data, 9) == 0)
+			data = parse_camera(app, data + 9);
+		else if (ft_strncmp("--sphere\n", data, 9) == 0)
+			data = parse_sphere(app, data + 9);
+		else if (ft_strncmp("--plane\n", data, 8) == 0)
+			data = parse_plane(app, data + 8);
 		else
 		{
 			printf("Invalid instruction\n");

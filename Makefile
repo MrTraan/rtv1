@@ -6,7 +6,7 @@
 #    By: ngrasset <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/18 16:13:25 by ngrasset          #+#    #+#              #
-#    Updated: 2018/05/21 15:18:04 by ngrasset         ###   ########.fr        #
+#    Updated: 2018/05/22 11:23:42 by ngrasset         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,6 +64,9 @@ $(O_DIR)%.o: $(C_DIR)%.c
 clean:
 	make clean -C libft
 	make clean -C $(MLX_DIR)
+	@rm -Rf $(O_DIR)
+
+clean_nolib:
 	@rm -Rf $(O_DIR)
 
 fclean: clean

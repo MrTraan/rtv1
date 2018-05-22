@@ -15,12 +15,18 @@
 #ifndef RTV1_H
 # define RTV1_H
 
+//TODO
+//bug when light is at 0 0 0
+
 # include <mlx.h>
 # include <math.h>
 # include <sys/time.h>
 # include <libft.h>
 # include <pthread.h>
 # include <fcntl.h>
+
+//remove
+#include <stdio.h>
 
 # define TO_RADIAN(x)	(x * M_PI/ 180)
 
@@ -31,12 +37,37 @@
 # define NB_THREADS		4
 # define SKIP_N			4
 # define SPECULAR_POW	50
-# define AA_ITER		10
+# define AA_ITER		40
 
 # define CAM_DEFAULT_POS ((t_v3){0.0f, 0.0f, 5.0f})
 # define CAM_DEFAULT_LOOKAT ((t_v3){0.0f, 0.0f, 0.0f})
 # define CAM_DEFAULT_UP ((t_v3){0.0f, 1.0f, 0.0f})
 # define CAM_DEFAULT_LIGHT ((t_v3){-5.0, 5.0, 5.0})
+
+# define SPHERE_DEFAULT_POS ((t_v3){0.0, 0.0, 0.0})
+# define SPHERE_DEFAULT_RADIUS 0.3f
+# define SPHERE_DEFAULT_MATERIAL ((t_material){ \
+			.type = LAMBERTIAN, \
+			.color = (t_v3){255.0f, .0f, .0f}, \
+			.ambiant = .2f, \
+			.diffuse = .5f, \
+			.specular = .9f\
+		})
+
+# define PLANE_DEFAULT_POS ((t_v3){0.0, -2.0, 0.0})
+# define PLANE_DEFAULT_MATERIAL ((t_material){ \
+			.type = LAMBERTIAN, \
+			.color = (t_v3){122.0f, 122.0f, 122.0f}, \
+			.ambiant = .2f, \
+			.diffuse = .5f, \
+			.specular = .0f\
+		})
+
+# define MAT_DEFAULT_AMBIANT 0.2
+# define MAT_DEFAULT_DIFFUSE 0.5
+# define MAT_DEFAULT_SPECULAR 0.3
+
+# define CONST
 
 typedef struct		s_iv2
 {
