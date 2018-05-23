@@ -6,7 +6,7 @@
 /*   By: dbousque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/03 15:57:53 by dbousque          #+#    #+#             */
-/*   Updated: 2018/05/23 10:57:03 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/23 13:47:06 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,8 @@ void	interpret_scene_file(t_app *app, char *data)
 			data = parse_plane(app, data + 8);
 		else if (ft_strncmp("--cylinder\n", data, 11) == 0)
 			data = parse_cylinder(app, data + 11);
+		else if (ft_strncmp("--cone\n", data, 7) == 0)
+			data = parse_cone(app, data + 7);
 		else
 		{
 			parser_put_invalid_instr(data);

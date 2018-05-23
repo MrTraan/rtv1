@@ -6,7 +6,7 @@
 /*   By: ngrasset <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/10 13:24:39 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/05/21 15:14:39 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/23 15:42:31 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,9 +130,9 @@ t_v3		v3_unit(t_v3 src)
 	t_v3		res;
 	float		length;
 
-	if (src.x + src.y + src.z == 0)
-		return ((t_v3){0, 1, 0});
 	length = v3_length(src);
+	if (length == 0)
+		return ((t_v3){0, 1, 0});
 	res = (t_v3){
 		.x = src.x / length,
 		.y = src.y / length,

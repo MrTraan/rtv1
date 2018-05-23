@@ -1,0 +1,38 @@
+--camera
+-pos 0.0 3.0 10.0
+-lookat 0.0 0.0 0.0
+-up 0.0 1.0 0.0
+-light 5.0 3.0 5.0
+
+--plane
+-pos 0 -1 0
+-normal 0 1 0
+
+--plane
+-pos 0 -1 -5
+-normal 0 0 1
+-material
+-color 16 81 188
+
+--sphere
+-pos 0 -0.5 0
+-radius 1
+-material
+-color 255 0 0
+-specular 1
+
+--cylinder
+-pos -1 0 0
+-direction 0 0 -45
+-material
+-color 0 255 0
+-diffuse 0.8
+
+--cone
+-pos 1 0 0
+-direction -2 4 0
+-alpha 70
+-material
+-color 255 255 0
+-specular 0
+-diffuse 0.5

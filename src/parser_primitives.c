@@ -6,7 +6,7 @@
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 10:41:01 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/05/23 10:47:05 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/23 15:40:17 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ char		*parse_v3_unit(char *data, t_v3 *v)
 	if ((matches = sscanf(data, "%*s %f %f %f\n",
 			&(raw.x), &(raw.y), &(raw.z))) != 3)
 		return (parser_put_error("Invalid vector 3"));
+	printf("raw : %f %f %f\n", raw.x, raw.y, raw.z);
 	raw = v3_unit(raw);
 	v->x = raw.x;
 	v->y = raw.y;

@@ -6,7 +6,7 @@
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 10:38:42 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/05/23 11:01:20 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/23 15:38:24 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,35 @@ char	*parse_cylinder(t_app *app, char *data)
 			break ;
 	}
 	ft_lstpush_back(&(app->hitable_list), ft_lstnew(&c, sizeof(t_cylinder)));
+	return (data);
+}
+
+char	*parse_cone(t_app *app, char *data)
+{
+	t_cone c;
+
+	c.type = CONE;
+	c.material = CONE_DEFAULT_MATERIAL;
+	c.origin = CONE_DEFAULT_POS;
+	c.direction = CONE_DEFAULT_DIRECTION;
+	c.alpha = CONE_DEFAULT_ALPHA;
+	while (data && *data && data[1] != '-')
+	{
+		if (str_is_whitespace(data))
+			data = ft_strchr(data, '\n') + 1;
+		else if (ft_strncmp("-pos ", data, 5) == 0)
+			data = parse_v3(data, &(c.origin));
+		else if (ft_strncmp("-direction ", data, 11) == 0)
+			data = parse_v3_unit(data, &(c.direction));
+		else if (ft_strncmp("-alpha ", data, 7) == 0)
+			data = parse_float(data, &(c.alpha));
+		else if (ft_strncmp("-material\n", data, 10) == 0)
+			data = parse_material(&(c.material), data + 10);
+		else
+			break ;
+	}
+	printf("%f %f %f\n", c.direction.x, c.direction.y, c.direction.z);
+	c.alpha = TO_RADIAN(c.alpha);
+	ft_lstpush_back(&(app->hitable_list), ft_lstnew(&c, sizeof(t_cone)));
 	return (data);
 }

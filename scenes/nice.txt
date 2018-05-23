@@ -1,0 +1,48 @@
+--camera
+-pos 0 0 -550
+-up 0 1 0
+-lookat 0 0 0
+-light -40 60 -10
+
+--plane
+-material
+-color 130 130 130
+-pos 0 0 200
+-normal 0 0 -1
+
+--sphere
+-material
+-color 0 250 250
+-pos -12 25 5
+-radius 25
+
+--sphere
+-material
+-color 190 140 250
+-pos 8 -53 -44
+-radius 35
+
+--sphere
+-material
+-color 200 10 100
+-pos -109 -74 84
+-radius 10
+
+--sphere
+-material
+-color 200 10 200
+-pos 30 70 0
+-radius 20
+
+--sphere
+-material
+-color 180 250 150
+-pos -40 80 101
+-radius 25
+
+--cylinder
+-material
+-color 10 150 240
+-pos -30 0 40
+-direction 90 0 0
+-radius 10

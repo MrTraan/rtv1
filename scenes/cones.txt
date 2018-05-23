@@ -3,3 +3,20 @@
 -lookat 0.0 0.0 0.0
 -up 0.0 1.0 0.0
 -light -5.0 5.0 5.0
+
+--cone
+--cone
+-alpha 10
+-direction -2 0 0 
+
+--cone
+-alpha 10
+-direction -2 1 0 
+-material
+-color 125 0 0
+
+--cone
+-alpha 10
+-direction -2 -1 0 
+-material
+-color 0 125 0

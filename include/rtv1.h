@@ -66,7 +66,7 @@
 		})
 
 # define CYLINDER_DEFAULT_POS ((t_v3){-1.0, 0.0, 0.0})
-# define CYLINDER_DEFAULT_DIRECTION ((t_v3){0, 1, 0})
+# define CYLINDER_DEFAULT_DIRECTION ((t_v3){0, 0, 0})
 # define CYLINDER_DEFAULT_RADIUS 0.6f
 # define CYLINDER_DEFAULT_MATERIAL ((t_material){ \
 			.type = LAMBERTIAN, \
@@ -76,11 +76,20 @@
 			.specular = .0f\
 		})
 
+# define CONE_DEFAULT_POS ((t_v3){1.0, 0.0, 0.0})
+# define CONE_DEFAULT_DIRECTION ((t_v3){0, 1, 0})
+# define CONE_DEFAULT_ALPHA 45
+# define CONE_DEFAULT_MATERIAL ((t_material){ \
+			.type = LAMBERTIAN, \
+			.color = (t_v3){122.0f, 0.0f, 122.0f}, \
+			.ambiant = .2f, \
+			.diffuse = .5f, \
+			.specular = .6f\
+		})
+
 # define MAT_DEFAULT_AMBIANT 0.2
 # define MAT_DEFAULT_DIFFUSE 0.5
 # define MAT_DEFAULT_SPECULAR 0.3
-
-# define CONST
 
 typedef struct		s_iv2
 {
@@ -272,6 +281,7 @@ int					str_is_whitespace(char *str);
 char				*parse_cylinder(t_app *app, char *data);
 char				*parse_plane(t_app *app, char *data);
 char				*parse_sphere(t_app *app, char *data);
+char				*parse_cone(t_app *app, char *data);
 char				*parse_material(t_material *mat, char *data);
 
 #endif
