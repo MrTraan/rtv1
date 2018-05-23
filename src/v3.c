@@ -6,19 +6,12 @@
 /*   By: ngrasset <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/10 13:24:39 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/05/23 15:42:31 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/23 17:38:33 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rtv1.h>
 #include <math.h>
-#include <stdio.h>
-void		v3_print(t_v3 v, char *msg)
-{
-	if (msg)
-		printf("%s", msg);
-	printf("(x: %f. y: %f, z: %f)\n", v.x, v.y, v.z);
-}
 
 t_v3		v3_add(t_v3 a, t_v3 b)
 {

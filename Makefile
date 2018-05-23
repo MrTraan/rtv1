@@ -6,7 +6,7 @@
 #    By: ngrasset <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/18 16:13:25 by ngrasset          #+#    #+#              #
-#    Updated: 2018/05/23 16:40:43 by ngrasset         ###   ########.fr        #
+#    Updated: 2018/05/23 17:33:41 by ngrasset         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,9 @@ C_FILES = 	src/main.c \
 			src/parser_helpers.c \
 			src/parser_primitives.c \
 			src/parser_objects.c \
-			src/shape_helpers.c
+			src/shape_helpers.c \
+			src/color.c \
+			src/main_helpers.c
 
 O_DIR =	.tmp/obj
 O_FILES = $(C_FILES:$(C_DIR)%.c=$(O_DIR)%.o)

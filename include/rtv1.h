@@ -17,7 +17,6 @@
 
 //TODO
 //bug when light is at 0 0 0
-// cylinder has old rotation, convert to unit vector direction
 
 # include <mlx.h>
 # include <math.h>
@@ -44,6 +43,12 @@
 # define CAM_DEFAULT_LOOKAT ((t_v3){0.0f, 0.0f, 0.0f})
 # define CAM_DEFAULT_UP ((t_v3){0.0f, 1.0f, 0.0f})
 # define CAM_DEFAULT_LIGHT ((t_v3){-5.0, 5.0, 5.0})
+# define CAM_DEFAULT_PARAMS ((t_camera_params) { \
+		.pos = CAM_DEFAULT_POS, \
+		.up = CAM_DEFAULT_UP, \
+		.lookat = CAM_DEFAULT_LOOKAT, \
+		.light = CAM_DEFAULT_LIGHT \
+		})
 
 # define SPHERE_DEFAULT_POS ((t_v3){0.0, 0.0, 0.0})
 # define SPHERE_DEFAULT_RADIUS 0.3f
@@ -211,6 +216,14 @@ typedef struct		s_camera
 	t_v3			light;
 }					t_camera;
 
+typedef struct		s_camera_params
+{
+	t_v3			pos;
+	t_v3			up;
+	t_v3			lookat;
+	t_v3			light;
+}					t_camera_params;
+
 typedef struct		s_app
 {
 	void			*mlx;
@@ -231,7 +244,7 @@ typedef struct		s_thread_data
 	int				end_x;
 }					t_thread_data;
 
-void				camera_init(t_camera *cam, t_v3 pos, t_v3 up, t_v3 lookat, t_v3 light);
+void				camera_init(t_camera *cam, t_camera_params p);
 t_ray				camera_get_ray(t_camera *cam, t_iv2 point);
 t_ray				camera_get_uv_ray(t_camera *cam, float u, float v);
 
@@ -285,5 +298,10 @@ char				*parse_cone(t_app *app, char *data);
 char				*parse_material(t_material *mat, char *data);
 
 int					find_roots(t_v3 params, t_v2 min_max, float *res);
+
+char				ray_hit(t_ray r, t_hitable *hitable, t_v2 boundaries, t_hit_record *rec);
+char				ray_hit_list(t_ray r, t_list *hitable_list, t_v2 boundaries, t_hit_record *rec);
+
+int					handle_key_event(int keycode, void *param);
 
 #endif

@@ -6,43 +6,12 @@
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 16:27:49 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/05/21 15:40:14 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/23 17:34:20 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rtv1.h>
 #include <stdlib.h>
-#include <stdio.h>
-void		draw_pixel(t_app *app, t_iv2 point, int color)
-{
-	pthread_mutex_lock(&(app->mutex));
-	*(app->image.data + (point.x + (WIN_WIDTH * point.y))) =
-		(int)mlx_get_color_value(app->mlx, color);
-	pthread_mutex_unlock(&(app->mutex));
-}
-
-void		delete_itable(void *hitable, size_t size)
-{
-	(void)size;
-	free(hitable);
-}
-
-static int		handle_key_event(int keycode, void *param)
-{
-	t_app	*app;
-
-	app = (t_app*)param;
-	(void)app;
-	if (keycode == 53 || keycode == 65307)
-	{
-		pthread_mutex_lock(&(app->mutex));
-		mlx_destroy_image(app->mlx, app->image.ptr);
-		mlx_destroy_window(app->mlx, app->win);
-		ft_lstdel(&(app->hitable_list), delete_itable);
-		exit(1);
-	}
-	return (0);
-}
 
 static int		millis_since(struct timeval *start)
 {
@@ -87,7 +56,7 @@ int				main(int argc, char **argv)
 {
 	t_app		app;
 	pthread_t	loop_thread;
-	
+
 	app.rendered = 0;
 	pthread_mutex_init(&(app.mutex), NULL);
 	app.mlx = mlx_init();
@@ -97,7 +66,7 @@ int				main(int argc, char **argv)
 	app.image.ptr = mlx_new_image(app.mlx, WIN_WIDTH, WIN_HEIGHT);
 	app.image.data = (int *)mlx_get_data_addr(app.image.ptr, app.image.infos,
 			app.image.infos + 1, app.image.infos + 2);
-	camera_init(&(app.camera), CAM_DEFAULT_POS, CAM_DEFAULT_UP, CAM_DEFAULT_LOOKAT, CAM_DEFAULT_LIGHT);
+	camera_init(&(app.camera), CAM_DEFAULT_PARAMS);
 	read_scene(&app, argc, argv);
 	pthread_create(&loop_thread, NULL, main_draw_loop, &app);
 	mlx_loop_hook(app.mlx, main_loop, &app);

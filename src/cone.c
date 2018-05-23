@@ -6,7 +6,7 @@
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 17:26:09 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/05/23 16:21:21 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/23 17:35:43 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char			ray_hit_cone(t_cone *cone, t_ray ray, t_v2 t_min_max,
 	t_v3		x;
 	float		k;
 
-	k = tan(cone->alpha / 2);
+	k = tan(TO_RADIAN(cone->alpha) / 2);
 	d = ray.direction;
 	rc = v3_sub(ray.origin, cone->origin);
 	x = v3_sub(ray.origin, cone->origin);

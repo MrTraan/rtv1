@@ -6,13 +6,13 @@
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 23:57:07 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/05/23 16:35:50 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/23 17:32:23 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rtv1.h>
 
-char		ray_hit_plane(t_plane *plane, t_ray ray, t_v2 t_min_max,
+char	ray_hit_plane(t_plane *plane, t_ray ray, t_v2 t_min_max,
 				t_hit_record *rec)
 {
 	float		n;
@@ -46,7 +46,8 @@ char	ray_hit_sphere(t_sphere *sphere, t_ray r, t_v2 t_min_max,
 	if ((find_roots(p, t_min_max, &(rec->t))) == 0)
 		return (0);
 	rec->p = ray_point_at_parameter(r, rec->t);
-	rec->normal = v3_mul_float(v3_sub(rec->p, sphere->center), 1.0 / sphere->radius);
+	rec->normal = v3_mul_float(v3_sub(rec->p, sphere->center),
+			1.0 / sphere->radius);
 	rec->material = sphere->material;
 	return (1);
 }

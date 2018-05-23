@@ -6,7 +6,7 @@
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 10:38:42 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/05/23 16:39:33 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/23 17:35:33 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ char	*parse_cone(t_app *app, char *data)
 			break ;
 	}
 	c.direction = v3_unit(v3_rot(CONE_DEFAULT_DIRECTION, c.direction));
-	c.alpha = TO_RADIAN(c.alpha);
 	ft_lstpush_back(&(app->hitable_list), ft_lstnew(&c, sizeof(t_cone)));
 	return (data);
 }

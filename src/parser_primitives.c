@@ -6,7 +6,7 @@
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 10:41:01 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/05/23 16:29:36 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/23 17:36:13 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,3 @@ char		*parse_float(char *data, float *f)
 	data++;
 	return (data);
 }
-

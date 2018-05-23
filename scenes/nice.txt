@@ -44,5 +44,5 @@
 -material
 -color 10 150 240
 -pos -30 0 40
--direction 90 0 0
+-rotation 90 0 0
 -radius 10

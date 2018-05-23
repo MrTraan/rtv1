@@ -6,7 +6,7 @@
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 16:05:26 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/05/23 16:12:19 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/23 17:38:09 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		find_roots(t_v3 params, t_v2 min_max, float *res)
 {
 	float	discriminant;
-	float 	temp;
+	float	temp;
 
 	discriminant = params.y * params.y - 4 * params.x * params.z;
 	if (discriminant < 0)
