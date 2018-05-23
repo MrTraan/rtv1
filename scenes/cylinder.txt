@@ -1,0 +1,13 @@
+--camera
+-pos 0.0 0.0 10.0
+-lookat 0.0 0.0 0.0
+-up 0.0 1.0 0.0
+-light -5.0 5.0 5.0
+
+--cylinder
+
+--cylinder
+-direction 00 0 90
+-radius 0.2
+-material
+-color 255 0 0

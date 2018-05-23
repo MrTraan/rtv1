@@ -17,6 +17,7 @@
 
 //TODO
 //bug when light is at 0 0 0
+// cylinder has old rotation, convert to unit vector direction
 
 # include <mlx.h>
 # include <math.h>
@@ -37,7 +38,7 @@
 # define NB_THREADS		4
 # define SKIP_N			4
 # define SPECULAR_POW	50
-# define AA_ITER		40
+# define AA_ITER		10
 
 # define CAM_DEFAULT_POS ((t_v3){0.0f, 0.0f, 5.0f})
 # define CAM_DEFAULT_LOOKAT ((t_v3){0.0f, 0.0f, 0.0f})
@@ -55,9 +56,21 @@
 		})
 
 # define PLANE_DEFAULT_POS ((t_v3){0.0, -2.0, 0.0})
+# define PLANE_DEFAULT_NORMAL ((t_v3){0, 1, 0})
 # define PLANE_DEFAULT_MATERIAL ((t_material){ \
 			.type = LAMBERTIAN, \
 			.color = (t_v3){122.0f, 122.0f, 122.0f}, \
+			.ambiant = .2f, \
+			.diffuse = .5f, \
+			.specular = .0f\
+		})
+
+# define CYLINDER_DEFAULT_POS ((t_v3){-1.0, 0.0, 0.0})
+# define CYLINDER_DEFAULT_DIRECTION ((t_v3){0, 1, 0})
+# define CYLINDER_DEFAULT_RADIUS 0.6f
+# define CYLINDER_DEFAULT_MATERIAL ((t_material){ \
+			.type = LAMBERTIAN, \
+			.color = (t_v3){0.0f, 122.0f, 122.0f}, \
 			.ambiant = .2f, \
 			.diffuse = .5f, \
 			.specular = .0f\
@@ -246,6 +259,19 @@ t_v3				v3_rot_y(t_v3 src, float angle);
 t_v3				v3_rot_z(t_v3 src, float angle);
 t_v3				v3_rot(t_v3 src, t_v3 rotation);
 t_v3				rotate(t_v3 v, t_v3 rotation);
+
 void				read_scene(t_app *app, int argc, char **argv);
+char				*parse_v3(char *data, t_v3 *v);
+char				*parse_v3_unit(char *data, t_v3 *v);
+char				*parse_float(char *data, float *f);
+char				*read_error(char *error, char err, char *contents);
+char				*parser_put_error(char *message);
+char				*parser_put_invalid_instr(char *data);
+int					str_is_whitespace(char *str);
+
+char				*parse_cylinder(t_app *app, char *data);
+char				*parse_plane(t_app *app, char *data);
+char				*parse_sphere(t_app *app, char *data);
+char				*parse_material(t_material *mat, char *data);
 
 #endif

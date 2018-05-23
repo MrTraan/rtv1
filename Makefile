@@ -6,7 +6,7 @@
 #    By: ngrasset <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/18 16:13:25 by ngrasset          #+#    #+#              #
-#    Updated: 2018/05/22 11:23:42 by ngrasset         ###   ########.fr        #
+#    Updated: 2018/05/23 10:42:31 by ngrasset         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,10 @@ C_FILES = 	src/main.c \
 			src/hitable.c \
 			src/cone.c \
 			src/rotation.c \
-			src/read_scene.c
+			src/read_scene.c \
+			src/parser_helpers.c \
+			src/parser_primitives.c \
+			src/parser_objects.c
 
 O_DIR =	.tmp/obj
 O_FILES = $(C_FILES:$(C_DIR)%.c=$(O_DIR)%.o)
