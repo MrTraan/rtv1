@@ -7,16 +7,16 @@
 --cone
 --cone
 -alpha 10
--direction -2 0 0 
+-rotation 0 0 90
 
 --cone
 -alpha 10
--direction -2 1 0 
+-rotation 0 0 45
 -material
 -color 125 0 0
 
 --cone
 -alpha 10
--direction -2 -1 0 
+-rotation 0 0 315
 -material
 -color 0 125 0

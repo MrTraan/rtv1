@@ -23,14 +23,14 @@
 
 --cylinder
 -pos -1 0 0
--direction 0 0 -45
+-rotation 0 0 -45
 -material
 -color 0 255 0
 -diffuse 0.8
 
 --cone
 -pos 1 0 0
--direction -2 4 0
+-rotation 0 0 30
 -alpha 70
 -material
 -color 255 255 0

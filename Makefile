@@ -6,7 +6,7 @@
 #    By: ngrasset <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/18 16:13:25 by ngrasset          #+#    #+#              #
-#    Updated: 2018/05/23 10:42:31 by ngrasset         ###   ########.fr        #
+#    Updated: 2018/05/23 16:40:43 by ngrasset         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,11 +21,12 @@ C_FILES = 	src/main.c \
 			src/ray.c \
 			src/hitable.c \
 			src/cone.c \
-			src/rotation.c \
+			src/cylinder.c \
 			src/read_scene.c \
 			src/parser_helpers.c \
 			src/parser_primitives.c \
-			src/parser_objects.c
+			src/parser_objects.c \
+			src/shape_helpers.c
 
 O_DIR =	.tmp/obj
 O_FILES = $(C_FILES:$(C_DIR)%.c=$(O_DIR)%.o)
@@ -38,7 +39,7 @@ ifeq ($(UNAME_S), Darwin)
 	MLX_DIR	=	libmlx
 endif
 
-FLAGS = -Wall -Wextra -Werror -O3 -fsanitize=address
+FLAGS = -Wall -Wextra -Werror -O3
 INCLUDES = -I ./include -I ./libft/includes -I./$(MLX_DIR)
 
 UNAME_S := $(shell uname -s)

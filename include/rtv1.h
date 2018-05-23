@@ -267,11 +267,11 @@ t_v3				v3_rot_x(t_v3 src, float angle);
 t_v3				v3_rot_y(t_v3 src, float angle);
 t_v3				v3_rot_z(t_v3 src, float angle);
 t_v3				v3_rot(t_v3 src, t_v3 rotation);
-t_v3				rotate(t_v3 v, t_v3 rotation);
 
 void				read_scene(t_app *app, int argc, char **argv);
 char				*parse_v3(char *data, t_v3 *v);
 char				*parse_v3_unit(char *data, t_v3 *v);
+char				*parse_v3_radians(char *data, t_v3 *v);
 char				*parse_float(char *data, float *f);
 char				*read_error(char *error, char err, char *contents);
 char				*parser_put_error(char *message);
@@ -283,5 +283,7 @@ char				*parse_plane(t_app *app, char *data);
 char				*parse_sphere(t_app *app, char *data);
 char				*parse_cone(t_app *app, char *data);
 char				*parse_material(t_material *mat, char *data);
+
+int					find_roots(t_v3 params, t_v2 min_max, float *res);
 
 #endif
