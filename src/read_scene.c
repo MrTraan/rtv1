@@ -6,7 +6,7 @@
 /*   By: dbousque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/03 15:57:53 by dbousque          #+#    #+#             */
-/*   Updated: 2018/05/28 09:44:52 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/28 09:54:27 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,5 +135,6 @@ int			read_scene(t_app *app, int argc, char **argv)
 		return (1);
 	}
 	interpret_scene_file(app, file_contents);
+	free(file_contents);
 	return (0);
 }
