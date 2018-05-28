@@ -6,7 +6,7 @@
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 10:38:42 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/05/23 17:35:33 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/28 09:48:50 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*parse_sphere(t_app *app, char *data)
 	s.type = SPHERE;
 	s.center = SPHERE_DEFAULT_POS;
 	s.radius = SPHERE_DEFAULT_RADIUS;
-	s.material = SPHERE_DEFAULT_MATERIAL;
+	s.material = sphere_default_material();
 	while (data && *data && data[1] != '-')
 	{
 		if (str_is_whitespace(data))
@@ -43,7 +43,7 @@ char	*parse_plane(t_app *app, char *data)
 
 	p.type = PLANE;
 	p.origin = PLANE_DEFAULT_POS;
-	p.material = PLANE_DEFAULT_MATERIAL;
+	p.material = plane_default_material();
 	p.normal = PLANE_DEFAULT_NORMAL;
 	while (data && *data && data[1] != '-')
 	{
@@ -68,7 +68,7 @@ char	*parse_cylinder(t_app *app, char *data)
 
 	c.type = CYLINDER;
 	c.origin = CYLINDER_DEFAULT_POS;
-	c.material = CYLINDER_DEFAULT_MATERIAL;
+	c.material = cylinder_default_material();
 	c.direction = CYLINDER_DEFAULT_DIRECTION;
 	c.radius = CYLINDER_DEFAULT_RADIUS;
 	while (data && *data && data[1] != '-')
@@ -95,7 +95,7 @@ char	*parse_cone(t_app *app, char *data)
 	t_cone c;
 
 	c.type = CONE;
-	c.material = CONE_DEFAULT_MATERIAL;
+	c.material = cone_default_material();
 	c.origin = CONE_DEFAULT_POS;
 	c.direction = CONE_DEFAULT_DIRECTION;
 	c.alpha = CONE_DEFAULT_ALPHA;

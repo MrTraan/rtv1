@@ -6,7 +6,7 @@
 #    By: ngrasset <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/18 16:13:25 by ngrasset          #+#    #+#              #
-#    Updated: 2018/05/23 17:33:41 by ngrasset         ###   ########.fr        #
+#    Updated: 2018/05/28 09:44:19 by ngrasset         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,9 @@ C_DIR = src
 C_FILES = 	src/main.c \
 			src/camera.c \
 			src/v3.c \
+			src/v3_1.c \
+			src/v3_2.c \
+			src/v3_3.c \
 			src/threads.c \
 			src/ray.c \
 			src/hitable.c \
@@ -28,7 +31,8 @@ C_FILES = 	src/main.c \
 			src/parser_objects.c \
 			src/shape_helpers.c \
 			src/color.c \
-			src/main_helpers.c
+			src/main_helpers.c \
+			src/defaults.c
 
 O_DIR =	.tmp/obj
 O_FILES = $(C_FILES:$(C_DIR)%.c=$(O_DIR)%.o)

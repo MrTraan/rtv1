@@ -6,7 +6,7 @@
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 16:27:49 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/05/23 17:34:20 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/28 09:43:31 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ int				main(int argc, char **argv)
 
 	app.rendered = 0;
 	pthread_mutex_init(&(app.mutex), NULL);
+	camera_init(&(app.camera), cam_default_params());
+	if (read_scene(&app, argc, argv) != 0)
+		return (1);
 	app.mlx = mlx_init();
 	app.win = mlx_new_window(app.mlx, WIN_WIDTH, WIN_HEIGHT, "RTv1");
 	mlx_key_hook(app.win, handle_key_event, &app);
@@ -66,8 +69,6 @@ int				main(int argc, char **argv)
 	app.image.ptr = mlx_new_image(app.mlx, WIN_WIDTH, WIN_HEIGHT);
 	app.image.data = (int *)mlx_get_data_addr(app.image.ptr, app.image.infos,
 			app.image.infos + 1, app.image.infos + 2);
-	camera_init(&(app.camera), CAM_DEFAULT_PARAMS);
-	read_scene(&app, argc, argv);
 	pthread_create(&loop_thread, NULL, main_draw_loop, &app);
 	mlx_loop_hook(app.mlx, main_loop, &app);
 	mlx_loop(app.mlx);

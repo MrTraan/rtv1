@@ -6,7 +6,7 @@
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 17:17:00 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/05/23 17:22:11 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/24 16:11:34 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ char		hit_is_shaded(t_app *app, t_hit_record rec, t_list *hitable_list)
 
 	r.origin = rec.p;
 	r.direction = app->camera.light;
+	if (r.direction.x == 0 && r.direction.y == 0 && r.direction.z == 0)
+		r.direction.z -= 0.0001;
 	iter = hitable_list;
 	while (iter)
 	{
@@ -65,8 +67,8 @@ char		hit_is_shaded(t_app *app, t_hit_record rec, t_list *hitable_list)
 			iter = iter->next;
 			continue ;
 		}
-		if (ray_hit(r, (t_hitable *)iter->content,
-					(t_v2){0.01, FLT_MAX}, &temp_record))
+		if (ray_hit(r, (t_hitable *)iter->content, (t_v2){0.01,
+					v3_length(v3_sub(rec.p, app->camera.light))}, &temp_record))
 			return (1);
 		iter = iter->next;
 	}

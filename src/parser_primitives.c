@@ -6,11 +6,12 @@
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 10:41:01 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/05/23 17:36:13 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/24 16:12:17 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rtv1.h>
+#include <stdio.h>
 
 char		*parse_v3(char *data, t_v3 *v)
 {

@@ -6,7 +6,7 @@
 /*   By: dbousque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/03 15:57:53 by dbousque          #+#    #+#             */
-/*   Updated: 2018/05/23 17:37:49 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/28 09:44:52 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char		*parse_camera(t_app *app, char *data)
 {
 	t_camera_params		p;
 
-	p = CAM_DEFAULT_PARAMS;
+	p = cam_default_params();
 	while (data && *data && data[1] != '-')
 	{
 		if (str_is_whitespace(data))
@@ -112,7 +112,7 @@ void		interpret_scene_file(t_app *app, char *data)
 	}
 }
 
-void		read_scene(t_app *app, int argc, char **argv)
+int			read_scene(t_app *app, int argc, char **argv)
 {
 	char	*file_contents;
 	char	error;
@@ -122,8 +122,7 @@ void		read_scene(t_app *app, int argc, char **argv)
 	{
 		ft_putstr("No scene to load\n");
 		ft_putstr("Usage : ./rtv1 [scene_file]\n");
-		exit(1);
-		return ;
+		return (1);
 	}
 	if (!(file_contents = read_whole_file(argv[1], &error, 3 * 1024 * 1024)))
 	{
@@ -133,7 +132,8 @@ void		read_scene(t_app *app, int argc, char **argv)
 			ft_putstr("Could not read scene file\n");
 		if (error == 3)
 			ft_putstr("Scene file is too big, must be <= 3MB\n");
-		return ;
+		return (1);
 	}
 	interpret_scene_file(app, file_contents);
+	return (0);
 }

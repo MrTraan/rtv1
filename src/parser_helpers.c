@@ -6,7 +6,7 @@
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 10:25:27 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/05/23 10:55:38 by ngrasset         ###   ########.fr       */
+/*   Updated: 2018/05/24 15:16:58 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ char		*parser_put_invalid_instr(char *data)
 	else
 		write(2, data, ft_strlen(data));
 	ft_putstr_fd("\n", 2);
+	exit(1);
 	return (NULL);
 }
 

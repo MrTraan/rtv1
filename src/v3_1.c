@@ -1,74 +1,59 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   v3.c                                               :+:      :+:    :+:   */
+/*   v3_1.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/24 14:59:57 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/05/24 15:01:23 by ngrasset         ###   ########.fr       */
+/*   Created: 2018/05/24 14:59:48 by ngrasset          #+#    #+#             */
+/*   Updated: 2018/05/24 15:00:33 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rtv1.h>
 #include <math.h>
 
-t_v3		v3_add(t_v3 a, t_v3 b)
+t_v3		v3_divide(t_v3 a, t_v3 b)
 {
 	t_v3	res;
 
 	res = (t_v3){
-		.x = a.x + b.x,
-		.y = a.y + b.y,
-		.z = a.z + b.z
+		.x = a.x / b.x,
+		.y = a.y / b.y,
+		.z = a.z / b.z
 	};
 	return (res);
 }
 
-t_v3		v3_sub(t_v3 a, t_v3 b)
+int			v3_to_color(t_v3 v)
 {
-	t_v3	res;
-
-	res = (t_v3){
-		.x = a.x - b.x,
-		.y = a.y - b.y,
-		.z = a.z - b.z
-	};
-	return (res);
+	if (v.x > 255.0f)
+		v.x = 255.0f;
+	if (v.y > 255.0f)
+		v.y = 255.0f;
+	if (v.z > 255.0f)
+		v.z = 255.0f;
+	return ((int)v.z + ((int)v.y << 8) + ((int)v.x << 16));
 }
 
-t_v3		v3_add_float(t_v3 a, float f)
+float		v3_length(t_v3 v)
 {
-	t_v3	res;
-
-	res = (t_v3){
-		.x = a.x + f,
-		.y = a.y + f,
-		.z = a.z + f
-	};
-	return (res);
+	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
 }
 
-t_v3		v3_mul_float(t_v3 a, float f)
+float		v3_squared_length(t_v3 v)
 {
-	t_v3	res;
-
-	res = (t_v3){
-		.x = a.x * f,
-		.y = a.y * f,
-		.z = a.z * f
-	};
-	return (res);
+	return (v.x * v.x + v.y * v.y + v.z * v.z);
 }
 
-t_v3		v3_mul(t_v3 a, t_v3 b)
+t_v3		v3_cross(t_v3 a, t_v3 b)
 {
 	t_v3	res;
 
 	res = (t_v3){
-		.x = a.x * b.x,
-		.y = a.y * b.y,
-		.z = a.z * b.z
+		.x = a.y * b.z - a.z * b.y,
+		.y = -(a.x * b.z - a.z * b.x),
+		.z = a.x * b.y - a.y * b.x
 	};
 	return (res);
 }

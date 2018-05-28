@@ -1,22 +1,17 @@
 /* ************************************************************************** */
-
-
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   rtv1.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ngrasset <ngrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/17 16:28:16 by ngrasset          #+#    #+#             */
-/*   Updated: 2018/04/18 03:48:02 by ngrasset         ###   ########.fr       */
+/*   Created: 2018/05/24 16:15:40 by ngrasset          #+#    #+#             */
+/*   Updated: 2018/05/28 09:48:13 by ngrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RTV1_H
 # define RTV1_H
-
-//TODO
-//bug when light is at 0 0 0
 
 # include <mlx.h>
 # include <math.h>
@@ -24,9 +19,6 @@
 # include <libft.h>
 # include <pthread.h>
 # include <fcntl.h>
-
-//remove
-#include <stdio.h>
 
 # define TO_RADIAN(x)	(x * M_PI/ 180)
 
@@ -43,54 +35,20 @@
 # define CAM_DEFAULT_LOOKAT ((t_v3){0.0f, 0.0f, 0.0f})
 # define CAM_DEFAULT_UP ((t_v3){0.0f, 1.0f, 0.0f})
 # define CAM_DEFAULT_LIGHT ((t_v3){-5.0, 5.0, 5.0})
-# define CAM_DEFAULT_PARAMS ((t_camera_params) { \
-		.pos = CAM_DEFAULT_POS, \
-		.up = CAM_DEFAULT_UP, \
-		.lookat = CAM_DEFAULT_LOOKAT, \
-		.light = CAM_DEFAULT_LIGHT \
-		})
 
 # define SPHERE_DEFAULT_POS ((t_v3){0.0, 0.0, 0.0})
 # define SPHERE_DEFAULT_RADIUS 0.3f
-# define SPHERE_DEFAULT_MATERIAL ((t_material){ \
-			.type = LAMBERTIAN, \
-			.color = (t_v3){255.0f, .0f, .0f}, \
-			.ambiant = .2f, \
-			.diffuse = .5f, \
-			.specular = .9f\
-		})
 
 # define PLANE_DEFAULT_POS ((t_v3){0.0, -2.0, 0.0})
 # define PLANE_DEFAULT_NORMAL ((t_v3){0, 1, 0})
-# define PLANE_DEFAULT_MATERIAL ((t_material){ \
-			.type = LAMBERTIAN, \
-			.color = (t_v3){122.0f, 122.0f, 122.0f}, \
-			.ambiant = .2f, \
-			.diffuse = .5f, \
-			.specular = .0f\
-		})
 
 # define CYLINDER_DEFAULT_POS ((t_v3){-1.0, 0.0, 0.0})
 # define CYLINDER_DEFAULT_DIRECTION ((t_v3){0, 0, 0})
 # define CYLINDER_DEFAULT_RADIUS 0.6f
-# define CYLINDER_DEFAULT_MATERIAL ((t_material){ \
-			.type = LAMBERTIAN, \
-			.color = (t_v3){0.0f, 122.0f, 122.0f}, \
-			.ambiant = .2f, \
-			.diffuse = .5f, \
-			.specular = .0f\
-		})
 
 # define CONE_DEFAULT_POS ((t_v3){1.0, 0.0, 0.0})
 # define CONE_DEFAULT_DIRECTION ((t_v3){0, 1, 0})
 # define CONE_DEFAULT_ALPHA 45
-# define CONE_DEFAULT_MATERIAL ((t_material){ \
-			.type = LAMBERTIAN, \
-			.color = (t_v3){122.0f, 0.0f, 122.0f}, \
-			.ambiant = .2f, \
-			.diffuse = .5f, \
-			.specular = .6f\
-		})
 
 # define MAT_DEFAULT_AMBIANT 0.2
 # define MAT_DEFAULT_DIFFUSE 0.5
@@ -252,15 +210,18 @@ void				draw_pixel(t_app *app, t_iv2 point, int color);
 
 int					start_threads(t_app *app, t_list *hitable_list);
 
-t_v3				compute_ray_color(t_app *app, t_ray r, t_list *hitable_list);
+t_v3				compute_ray_color(t_app *app, t_ray r,
+						t_list *hitable_list);
 
 t_v3				ray_point_at_parameter(t_ray r, float t);
 char				ray_hit_sphere(t_sphere *sphere, t_ray r, t_v2 t_min_max,
 						t_hit_record *rec);
 char				ray_hit_plane(t_plane *plane, t_ray ray, t_v2 t_min_max,
 						t_hit_record *rec);
-char				ray_hit_cylinder(t_cylinder *cylinder, t_ray ray, t_v2 t_min_max, t_hit_record *rec);
-char				ray_hit_cone(t_cone *cone, t_ray ray, t_v2 t_min_max, t_hit_record *rec);
+char				ray_hit_cylinder(t_cylinder *cylinder, t_ray ray,
+						t_v2 t_min_max, t_hit_record *rec);
+char				ray_hit_cone(t_cone *cone, t_ray ray, t_v2 t_min_max,
+						t_hit_record *rec);
 
 void				v3_print(t_v3 v, char *msg);
 t_v3				v3_add(t_v3 a, t_v3 b);
@@ -281,7 +242,7 @@ t_v3				v3_rot_y(t_v3 src, float angle);
 t_v3				v3_rot_z(t_v3 src, float angle);
 t_v3				v3_rot(t_v3 src, t_v3 rotation);
 
-void				read_scene(t_app *app, int argc, char **argv);
+int					read_scene(t_app *app, int argc, char **argv);
 char				*parse_v3(char *data, t_v3 *v);
 char				*parse_v3_unit(char *data, t_v3 *v);
 char				*parse_v3_radians(char *data, t_v3 *v);
@@ -299,9 +260,17 @@ char				*parse_material(t_material *mat, char *data);
 
 int					find_roots(t_v3 params, t_v2 min_max, float *res);
 
-char				ray_hit(t_ray r, t_hitable *hitable, t_v2 boundaries, t_hit_record *rec);
-char				ray_hit_list(t_ray r, t_list *hitable_list, t_v2 boundaries, t_hit_record *rec);
+char				ray_hit(t_ray r, t_hitable *hitable, t_v2 boundaries,
+						t_hit_record *rec);
+char				ray_hit_list(t_ray r, t_list *hitable_list, t_v2 boundaries,
+						t_hit_record *rec);
 
 int					handle_key_event(int keycode, void *param);
+
+t_camera_params		cam_default_params(void);
+t_material			sphere_default_material(void);
+t_material			cylinder_default_material(void);
+t_material			plane_default_material(void);
+t_material			cone_default_material(void);
 
 #endif
